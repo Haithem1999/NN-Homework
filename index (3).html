@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Titanic – In-Browser Binary Classifier</title>
+
+  <!-- TensorFlow.js & tfjs-vis -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@latest"></script>
+
+  <!-- PapaParse for fast CSV parsing -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@latest/papaparse.min.js"></script>
+
+  <!-- Basic, responsive styling -->
+  <style>
+    body{font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;padding:1rem;line-height:1.4;background:#f5f7fa;color:#222}
+    h2{margin-top:2rem}
+    section{margin-bottom:2rem;padding:1rem;background:#fff;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    input[type="file"]{margin:.25rem 0}
+    button{cursor:pointer;padding:.5rem 1rem;border:none;border-radius:4px;background:#007bff;color:#fff;margin-right:.5rem}
+    button:disabled{background:#aaa}
+    table{border-collapse:collapse;width:100%;overflow:auto}
+    th,td{border:1px solid #ddd;padding:.25rem;text-align:center;font-size:.9rem}
+    #previewContainer{max-height:400px;overflow:auto}
+    #rocCanvas{width:100%;height:300px}
+    #metrics p{margin:.25rem 0;font-weight:600}
+    @media(max-width:600px){button{display:block;margin:.5rem 0}}
+  </style>
+</head>
+<body>
+
+<h1>Titanic TensorFlow.js Classifier (Client-Side)</h1>
+
+<section id="dataLoad">
+  <h2>1. Data Load</h2>
+  <label>Train CSV: <input type="file" id="trainFile" accept=".csv"></label><br>
+  <label>Test CSV:  <input type="file" id="testFile"  accept=".csv"></label><br>
+  <button id="loadBtn">Load &amp; Preview</button>
+  <div id="previewContainer"></div>
+</section>
+
+<section id="preprocess">
+  <h2>2. Pre-processing</h2>
+  <button id="prepBtn" disabled>Run Pre-processing</button>
+  <pre id="prepLog"></pre>
+</section>
+
+<section id="model">
+  <h2>3. Model</h2>
+  <button id="buildBtn" disabled>Build Model</button>
+  <pre id="modelSummary"></pre>
+</section>
+
+<section id="training">
+  <h2>4. Training</h2>
+  <button id="trainBtn" disabled>Train (50 epochs)</button>
+  <div id="trainingVis"></div>
+</section>
+
+<section id="metrics">
+  <h2>5. Metrics &amp; Threshold</h2>
+  <canvas id="rocCanvas"></canvas>
+  <label>Threshold: <span id="threshVal">0.5</span>
+    <input type="range" id="threshSlider" min="0" max="1" value="0.5" step="0.01" disabled>
+  </label>
+  <table id="cmTable"></table>
+  <p id="prf"></p>
+</section>
+
+<section id="predict">
+  <h2>6. Predict &amp; Export</h2>
+  <button id="predictBtn" disabled>Predict on test.csv</button>
+  <button id="downloadPredBtn" disabled>Download submission.csv</button>
+  <button id="downloadProbBtn" disabled>Download probabilities.csv</button>
+  <button id="saveModelBtn" disabled>⬇️ Download Trained Model</button>
+</section>
+
+<section id="notes">
+  <h2>7. Deployment Notes</h2>
+  <p>Create a public GitHub repository, commit <code>index.html</code> and <code>app.js</code> to the root of <code>main</code>, enable GitHub Pages (<em>Project Site → Branch: main / folder: root</em>), then open the generated URL. Everything runs entirely in the browser—no server required.</p>
+</section>
+
+<!-- Main application script -->
+<script defer src="app.js"></script>
+</body>
+</html>
